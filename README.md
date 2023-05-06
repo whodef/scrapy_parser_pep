@@ -25,7 +25,7 @@
    ```
 3. Установите зависимости из файла requirements.txt
     ```bash
-    python3 -m pip3 install --upgrade pip
+    python3 -m pip install --upgrade pip
     ```
     ```bash
     pip3 install -r requirements.txt
