@@ -1,7 +1,5 @@
 # Scrapy Parser Pep
 
-## Описание
-
 Асинхронный парсинг документов PEP
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=ffffff&color=informational)](https://www.python.org/)
