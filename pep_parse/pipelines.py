@@ -11,14 +11,15 @@ TIME_NOW = dt.datetime.now().strftime(DATE_FORMAT)
 
 
 def write_results(status_summary):
+    TOTAL_SUM = ('Total', sum(status_summary.values()))
+
     timestamp = TIME_NOW
     results_dir = BASE_DIR / 'results'
     results_dir.mkdir(exist_ok=True)
     file_name = f'status_summary_{timestamp}.csv'
     file_path = results_dir / file_name
     result = (
-        [FIELDS_NAME] + status_summary.most_common() +
-        [('Total', sum(status_summary.values()))]
+        [FIELDS_NAME] + status_summary.most_common() + [TOTAL_SUM]
     )
 
     with open(file_path, 'w', encoding='utf-8') as f:
