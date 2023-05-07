@@ -28,8 +28,11 @@ def write_results(status_summary):
 
 
 class PepParsePipeline:
-    def open_spider(self, spider):
+    def __init__(self):
         self.status_summary = Counter()
+
+    def open_spider(self, spider):
+        pass
 
     def process_item(self, item, spider):
         self.status_summary[item['status']] += 1
