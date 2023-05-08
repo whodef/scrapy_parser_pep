@@ -1,6 +1,8 @@
 import scrapy
+import re
 
 from pep_parse.items import PepParseItem
+from pep_parse.constants import STATUS_SELECTOR
 
 
 class PepSpider(scrapy.Spider):
@@ -16,13 +18,17 @@ class PepSpider(scrapy.Spider):
 
     @staticmethod
     def parse_pep(response):
-        number, name = (
-            response.css('h1.page-title::text').get().strip().split(' – ')
-        )
-        status = response.css('dt:contains("Status") + dd > abbr::text').get()
+        title_text = response.css('h1.page-title::text').get().strip()
+        status = response.css(STATUS_SELECTOR).get()
+
+        match = re.match(r'PEP (\d+) - (.+)', title_text)
+        if match:
+            number, name = match.groups()
+        else:
+            number, name = None, None
 
         pep_info = {
-            'number': number.split(' ')[-1],
+            'number': number,
             'name': name,
             'status': status,
         }

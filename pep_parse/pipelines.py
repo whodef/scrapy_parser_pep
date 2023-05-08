@@ -1,19 +1,14 @@
-import csv
 import datetime as dt
+import csv
 from collections import Counter
-from pathlib import Path
 
-
-BASE_DIR = Path(__file__).resolve().parent
-FIELDS_NAME = ('Статус', 'Количество')
-DATE_FORMAT = '%Y-%m-%dT%H-%M-%S'
-TIME_NOW = dt.datetime.now().strftime(DATE_FORMAT)
+from .constants import BASE_DIR, DATE_FORMAT, FIELDS_NAME
 
 
 def write_results(status_summary):
     TOTAL_SUM = ('Total', sum(status_summary.values()))
 
-    timestamp = TIME_NOW
+    timestamp = dt.datetime.now().strftime(DATE_FORMAT)
     results_dir = BASE_DIR / 'results'
     results_dir.mkdir(exist_ok=True)
     file_name = f'status_summary_{timestamp}.csv'
@@ -29,10 +24,10 @@ def write_results(status_summary):
 
 class PepParsePipeline:
     def __init__(self):
-        self.status_summary = Counter()
+        pass
 
     def open_spider(self, spider):
-        pass
+        self.status_summary = Counter()
 
     def process_item(self, item, spider):
         self.status_summary[item['status']] += 1
