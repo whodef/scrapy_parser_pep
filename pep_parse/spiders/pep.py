@@ -2,7 +2,9 @@ import scrapy
 import re
 
 from pep_parse.items import PepParseItem
-from pep_parse.constants import STATUS_SELECTOR
+from pep_parse.constants import (
+    PEP_URLS_SELECTOR, TITLE_TEXT_SELECTOR, STATUS_SELECTOR
+)
 
 
 class PepSpider(scrapy.Spider):
@@ -11,14 +13,12 @@ class PepSpider(scrapy.Spider):
     start_urls = ['https://peps.python.org/']
 
     def parse(self, response, **kwargs):
-        pep_urls = response.css(
-            'section#numerical-index tr > td:nth-child(3) a'
-        )
+        pep_urls = response.css(PEP_URLS_SELECTOR)
         yield from response.follow_all(pep_urls, callback=self.parse_pep)
 
     @staticmethod
     def parse_pep(response):
-        title_text = response.css('h1.page-title::text').get().strip()
+        title_text = response.css(TITLE_TEXT_SELECTOR).get().strip()
         status = response.css(STATUS_SELECTOR).get()
 
         match = re.match(r'PEP (\d+) - (.+)', title_text)
