@@ -3,7 +3,7 @@ import re
 
 from pep_parse.items import PepParseItem
 from pep_parse.constants import (
-    PEP_URLS_SELECTOR, TITLE_TEXT_SELECTOR, STATUS_SELECTOR
+    REG_EXP,  PEP_URLS_SELECTOR, TITLE_TEXT_SELECTOR, STATUS_SELECTOR
 )
 
 
@@ -21,7 +21,7 @@ class PepSpider(scrapy.Spider):
         title_text = response.css(TITLE_TEXT_SELECTOR).get().strip()
         status = response.css(STATUS_SELECTOR).get()
 
-        match = re.match(r'PEP (\d+) - (.+)', title_text)
+        match = re.match(REG_EXP, title_text)
         if match:
             number, name = match.groups()
         else:
